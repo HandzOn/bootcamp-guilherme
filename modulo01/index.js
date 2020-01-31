@@ -10,6 +10,24 @@ server.use(express.json());
 
 const users = ['Guilherme', 'Erisvaldo', 'William']
 
+
+server.use((req, res, next) => {
+    console.time('Request');
+    console.log(`Method: ${req.method} | URL: ${req.url}`);
+    next();
+    console.timeEnd('Request');
+});
+
+function checkIfUserExists(req, res, next) {
+    if (!req.body.name) 
+        return res.status(400).json({ 
+            error: 'User name is required'
+        });
+
+    return next();
+}
+
+
 server.get('/api/users', (req, res) => {
     return res.json(users);
 })
@@ -19,13 +37,13 @@ server.get('/api/users/:index', (req, res) => {
     return res.json({ user: users[index]});
 });
 
-server.post('/api/users', (req, res) => {
+server.post('/api/users', checkIfUserExists, (req, res) => {
     const { name } = req.body;
     users.push(name);
     return res.json(users);
 });
 
-server.put('/api/users/:index', (req, res) => {
+server.put('/api/users/:index', checkIfUserExists, (req, res) => {
     const { name } = req.body;
     const { index } = req.params;
     users[index] = name;
