@@ -13,12 +13,12 @@ class Project {
     }
 
     update(projectId, title) {
-        const project = this.projects.find(project => project.id == id);
+        const project = this.projects.find(project => project.id == projectId);
         project.title = title;
         return project;
     }
 
-    get(projectId) {
+    find(projectId) {
         return this.projects.find(project => project.id === parseInt(projectId));
     }
 
