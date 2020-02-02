@@ -2,4 +2,4 @@ import { Router } from 'express';
 
 const routes = new Router();
 
-export default Router;
+export default routes;
